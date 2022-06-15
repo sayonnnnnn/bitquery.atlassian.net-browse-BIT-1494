@@ -1,5 +1,6 @@
 import streamlit as st 
 import requests 
+import time
 
 st.set_page_config (
     page_title="Balance by Bitquery",
@@ -50,13 +51,14 @@ variables = {
 }
 
 if submitted: 
-	if apiKey != "" or apiKey != " ":
-		if blockchain == "ethereum" or blockchain == "bsc": 
-			result = bitqueryAPICall(queryETHAndBSC, apiKey)
-			st.success('The Balance of the token is {}'.format(result['data']['ethereum']['address'][0]['balance']))
-		elif blockchain == "algorand":
-			result = bitqueryAPICall(queryALGO, apiKey)
-			st.success('The Balance of the token is {}'.format(result['data']['algorand']['address'][0]['balance']))
-	else:
-		pass
-    
+	while True:
+		if apiKey != "" or apiKey != " ":
+			if blockchain == "ethereum" or blockchain == "bsc": 
+				result = bitqueryAPICall(queryETHAndBSC, apiKey)
+				st.success('The Balance of the token is {}'.format(result['data']['ethereum']['address'][0]['balance']))
+			elif blockchain == "algorand":
+				result = bitqueryAPICall(queryALGO, apiKey)
+				st.success('The Balance of the token is {}'.format(result['data']['algorand']['address'][0]['balance']))
+		else:
+			pass
+		time.sleep(300)
